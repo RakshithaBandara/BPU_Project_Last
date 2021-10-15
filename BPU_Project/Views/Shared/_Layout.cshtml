@@ -23,6 +23,9 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Salesorder", "Index", "Salesorder")</li>
                     <li>@Html.ActionLink("Add New Salesorder", "Create", "Salesorder")</li>
+                    <li>@Html.ActionLink("Completed", "IndexCompleted", "Salesorder")</li>
+                    <li>@Html.ActionLink("Pending", "IndexPending", "Salesorder")</li>
+                    <li>@Html.ActionLink("Ready", "IndexReady", "Salesorder")</li>
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")

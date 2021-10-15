@@ -260,6 +260,7 @@
     <Content Include="Views\Salesorder\IndexCompleted.cshtml" />
     <Content Include="Views\Salesorder\Delete.cshtml" />
     <Content Include="Views\Salesorder\IndexPending.cshtml" />
+    <Content Include="Views\Salesorder\IndexReady.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,7 +22,7 @@ namespace BPU_Project.Controllers
             _context.Dispose();
         }
         // GET: Salesorder
-        //[Authorize(Roles ="CanManageSalesorders")]
+       // [Authorize(Roles = "CanManageSalesorders")]
         public ActionResult Index(string option, string search)
         {
             var salesorders = _context.Salesorders.ToList();
@@ -33,67 +33,86 @@ namespace BPU_Project.Controllers
                 if (option == "Salesorder")
                 {
                     //Index action method will return a view with a student records based on what a user specify the value in textbox  
-                    return View(_context.Salesorders.Where(x => x.Salesorder_No == search).ToList());
+                    return View(_context.Salesorders.Where(x => x.Salesorder_No == search).OrderByDescending(x => x.Date).ToList());
                 }
                 else if (option == "Lineitem")
                 {
-                    return View(_context.Salesorders.Where(x => x.Line_Item == search).ToList());
+                    return View(_context.Salesorders.Where(x => x.Line_Item == search).OrderByDescending(x => x.Date).ToList());
                 }
                 else if (option == "ModuleNo")
                 {
-                    return View(_context.Salesorders.Where(x => x.Module.Contains(search)).ToList());
+                    return View(_context.Salesorders.Where(x => x.Module.Contains(search)).OrderByDescending(x => x.Date).ToList());
                 }
                 else
                 {
-                    return View(_context.Salesorders.ToList());
+                    return View(_context.Salesorders.OrderByDescending(x => x.Date).ThenBy(x=> x.Line_Item).ToList());
                 }
             }
 
             else
             {
-                return View("UserIndex");
+                // return View("UserIndex");
+                return RedirectToAction("UserIndex");
             }
 
             // var salesorders = _context.Salesorders.ToList();
             //return View(salesorders);
         }
 
-        public ActionResult UserIndex()
+        public ActionResult UserIndex(string option, string search)
         {
             var salesorders = _context.Salesorders.ToList();
             {
-                return View(_context.Salesorders.ToList());
+                if (option == "Salesorder")
+                {
+                    //Index action method will return a view with a student records based on what a user specify the value in textbox  
+                    return View(_context.Salesorders.Where(x => x.Salesorder_No == search).OrderByDescending(x => x.Date).ToList());
+                }
+                else if (option == "Lineitem")
+                {
+                    return View(_context.Salesorders.Where(x => x.Line_Item == search).OrderByDescending(x => x.Date).ToList());
+                }
+                else if (option == "ModuleNo")
+                {
+                    return View(_context.Salesorders.Where(x => x.Module.Contains(search)).OrderByDescending(x => x.Date).ToList());
+                }
+                else
+                {
+                    return View(_context.Salesorders.OrderByDescending(x => x.Date).ToList());
+                }
             }
-           // var salesorders = _context.Salesorders.ToList();
-            //{
-            //    return View(_context.Salesorders.ToList());
-           // }
-
-            /*var salesorders = _context.Salesorders.ToList();
-
-            //if a user choose the radio button option as Subject  
-            if (option == "Salesorder")
-            {
-                //Index action method will return a view with a student records based on what a user specify the value in textbox  
-                return View(_context.Salesorders.Where(x => x.Salesorder_No == search).ToList());
-            }
-            else if (option == "Lineitem")
-            {
-                return View(_context.Salesorders.Where(x => x.Line_Item == search).ToList());
-            }
-            else if (option == "ModuleNo")
-            {
-                return View(_context.Salesorders.Where(x => x.Module.Contains(search)).ToList());
-            }
-            else
-            {
-                //return View(_context.Salesorders.ToList());
-                return View(salesorders);
-            }
-            // var salesorders = _context.Salesorders.ToList();
-            // return View(salesorders);
-            */
         }
+
+        // var salesorders = _context.Salesorders.ToList();
+        //{
+        //    return View(_context.Salesorders.ToList());
+        // }
+
+        /*var salesorders = _context.Salesorders.ToList();
+
+        //if a user choose the radio button option as Subject  
+        if (option == "Salesorder")
+        {
+            //Index action method will return a view with a student records based on what a user specify the value in textbox  
+            return View(_context.Salesorders.Where(x => x.Salesorder_No == search).ToList());
+        }
+        else if (option == "Lineitem")
+        {
+            return View(_context.Salesorders.Where(x => x.Line_Item == search).ToList());
+        }
+        else if (option == "ModuleNo")
+        {
+            return View(_context.Salesorders.Where(x => x.Module.Contains(search)).ToList());
+        }
+        else
+        {
+            //return View(_context.Salesorders.ToList());
+            return View(salesorders);
+        }
+        // var salesorders = _context.Salesorders.ToList();
+        // return View(salesorders);
+        */
+
 
         // GET: Salesorder/Details/5
         public ActionResult Details(int id)
@@ -143,7 +162,8 @@ namespace BPU_Project.Controllers
 
             else
             {
-                return View("UserEdit");
+                // return View("UserEdit");
+                return RedirectToAction("UserEdit", new { id = id});
             }
         }
 
@@ -163,15 +183,12 @@ namespace BPU_Project.Controllers
         }
         public ActionResult UserEdit(int id)
         {
-            if (User.IsInRole("CanManageSalesorders"))
-            {
-                return View("Edit");
-            }
+            var salesorder = _context.Salesorders.SingleOrDefault(x => x.Id == id);
 
-            else
-            {
-                return View("UserEdit");
-            }
+            if (salesorder == null)
+                return HttpNotFound();
+
+            return View(salesorder);
         }
 
         [HttpPost]
@@ -183,7 +200,7 @@ namespace BPU_Project.Controllers
             _context.SaveChanges();
 
             //  return RedirectToAction("Index");
-            return RedirectToAction("IndexCompleted", "Salesorder");
+            return RedirectToAction("IndexPending", "Salesorder");
         }
 
 
@@ -233,6 +250,14 @@ namespace BPU_Project.Controllers
             var salesorders = _context.Salesorders.ToList();
             {
                 return View(_context.Salesorders.Where(x => x.Completed == true).ToList());
+            }
+        }
+
+        public ActionResult IndexReady(string option, string search)
+        {
+            var salesorders = _context.Salesorders.ToList();
+            {
+                return View(_context.Salesorders.Where(x => x.InTheModule == true && x.Completed!=true).ToList());
             }
         }
 

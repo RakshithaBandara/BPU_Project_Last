@@ -138,7 +138,7 @@ namespace BPU_Project.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "CanManageSalesorders")]
         public ActionResult Register()
         {
             return View();

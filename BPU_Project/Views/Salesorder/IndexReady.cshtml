@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<BPU_Project.Models.Salesorder>
 
 @{
-    ViewBag.Title = "IndexPending";
+    ViewBag.Title = "IndexReady";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>IndexPending</h2>
+<h2>IndexReady</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -79,11 +79,11 @@
         @Html.DisplayFor(modelItem => item.Remark)
     </td>
     @*<td>
-        @Html.DisplayFor(modelItem => item.InTheModule)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Completed)
-    </td>
+            @Html.DisplayFor(modelItem => item.InTheModule)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Completed)
+        </td>
     *@
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
