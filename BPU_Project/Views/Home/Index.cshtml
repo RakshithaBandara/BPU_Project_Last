@@ -1,0 +1,57 @@
+﻿@model BPU_Project.Models.Salesorder
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="jumbotron">
+    <h1 allign="center">BPU</h1>
+    <p class="lead">Your Trust, Our Protection</p>
+    <p>
+        @*   @{
+                 int count =0;
+
+                 foreach(var salesorder in Model.Module)
+                 {
+                     count++;
+                 }
+                 <p>@count</p>
+             }
+        </p>*@
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>All Salesorders</h2>
+        <p>
+            @Html.ActionLink("Salesorder List", "Index", "Salesorder", null, new { @class = "btn btn-primary btn-large" });
+            @*{
+        if (User.IsInRole("CanManageSalesorders")) {
+            Html.ActionLink("Salesorder List", "Index", "Salesorder", null, new { @class = "btn btn-primary btn-large" });
+        }
+        else
+        {
+            Html.ActionLink("Salesorder List", "UserIndex", "Salesorder", null, new { @class = "btn btn-primary btn-large" });
+        } }*@
+            <!-- <p><a class="btn btn-default" href=""></a></p>-->
+</div>
+    <div class="col-md-4">
+        <h2>Completed</h2>
+        <p>
+            @Html.ActionLink("Completed Salesorders", "IndexCompleted", "Salesorder", null, new { @class = "btn btn-primary btn-large" })
+        </p>
+        <h2></h2>
+        <!-- <p><a class="btn btn-default" href=""></a></p>
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
+        </div>-->
+    </div>
+    <div class="col-md-4">
+        <h2>Pending</h2>
+        <p>@Html.ActionLink("Pending Salesorders", "IndexPending", "Salesorder", null, new { @class = "btn btn-primary btn-large" })</p>
+        <!--<p><a class="btn btn-default" href=""></a></p>-->
+    </div>
+
+
+</div>
+</div>
